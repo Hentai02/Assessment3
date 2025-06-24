@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 #include "Vitals.h"
 #include "PriorityCalculationStrategy.h"
@@ -106,48 +107,49 @@ void RobotWorker::setPriorityLevel(PriorityLevel level)
 		}
 		cout << endl;
 	}
-}
-
 	// Notify observers of priority change
 	if (oldLevel != _priorityLevel) {
 		notifyObservers(oldLevel, _priorityLevel);
 	}
-	void RobotWorker::addObserver(RobotObserver * observer)
-	{
-		if (observer && std::find(_observers.begin(), _observers.end(), observer) == _observers.end()) {
-			_observers.push_back(observer);
-		}
+}
+
+	
+void RobotWorker::addObserver(RobotObserver * observer)
+{
+	if (observer && std::find(_observers.begin(), _observers.end(), observer) == _observers.end()) {
+		_observers.push_back(observer);
+	}
+}
+
+void RobotWorker::removeObserver(RobotObserver * observer)
+{
+	_observers.erase(std::remove(_observers.begin(), _observers.end(), observer), _observers.end());
+}
+
+void RobotWorker::notifyObservers(PriorityLevel oldLevel, PriorityLevel newLevel)
+{
+	for (RobotObserver* observer : _observers) {
+		observer->onPriorityChanged(this, oldLevel, newLevel);
+	}
+}
+
+void RobotWorker::calculateAndUpdatePriority()
+{
+	if (_vitals.empty() || !_priorityStrategy) {
+		return;
 	}
 
-	void RobotWorker::removeObserver(RobotObserver * observer)
-	{
-		_observers.erase(std::remove(_observers.begin(), _observers.end(), observer), _observers.end());
+	// Use the most recent vitals for priority calculation
+	const Vitals* latestVitals = _vitals.back();
+	PriorityLevel newPriority = _priorityStrategy->calculatePriority(latestVitals);
+
+	setPriorityLevel(newPriority);
+}
+
+void RobotWorker::updatePriorityStrategy()
+{
+	if (!_tasks.empty()) {
+		_priorityStrategy = PriorityStrategyFactory::createStrategy(primaryTask());
 	}
-
-	void RobotWorker::notifyObservers(PriorityLevel oldLevel, PriorityLevel newLevel)
-	{
-		for (RobotObserver* observer : _observers) {
-			observer->onPriorityChanged(this, oldLevel, newLevel);
-		}
-	}
-
-	void RobotWorker::calculateAndUpdatePriority()
-	{
-		if (_vitals.empty() || !_priorityStrategy) {
-			return;
-		}
-
-		// Use the most recent vitals for priority calculation
-		const Vitals* latestVitals = _vitals.back();
-		PriorityLevel newPriority = _priorityStrategy->calculatePriority(latestVitals);
-
-		setPriorityLevel(newPriority);
-	}
-
-	void RobotWorker::updatePriorityStrategy()
-	{
-		if (!_tasks.empty()) {
-			_priorityStrategy = PriorityStrategyFactory::createStrategy(primaryTask());
-		}
-	}
+}
 

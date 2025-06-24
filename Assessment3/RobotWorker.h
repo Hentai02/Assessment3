@@ -22,6 +22,7 @@ class RobotWorker : public Robot,public RobotObservable {
 public:
 
 	RobotWorker(const std::string& identifier, const std::string& classCode, std::tm manufactureDate);
+	~RobotWorker();  // Add destructor declaration
 
 	// return a calculated age for the robot
 	// this calculation is not accurate, but is suitable for assignment purposes

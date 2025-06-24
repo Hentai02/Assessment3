@@ -1,0 +1,6 @@
+identifier,classCode,manufactureDate,task,vitals
+Alice,1B,15-03-2023,Supply materials for assembly,45.5,35,25
+Bob,2C,22-07-2022,Move new item to storage,55.0,45,30
+Charlie,3A,10-11-2024,Move item from storage to delivery system,15.2,25,15
+Diana,1A,05-01-2023,Supply materials for assembly,25.8,15,8
+Eve,2B,18-09-2023,Move new item to storage,35.0,18,22

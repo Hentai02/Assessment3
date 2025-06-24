@@ -1,4 +1,3 @@
-// PriorityCalculationStrategy.cpp - Implementation
 #include "PriorityCalculationStrategy.h"
 #include "Vitals.h"
 #include "RobotWorker.h"

@@ -129,23 +129,31 @@
   <ItemGroup>
     <ClCompile Include="Assessment3.cpp" />
     <ClCompile Include="ChargerNotificationSystemFacade.cpp" />
+    <ClCompile Include="CompositeRobotLoader.cpp" />
     <ClCompile Include="FactoryAlertSystemFacade.cpp" />
+    <ClCompile Include="PriorityCalculationStrategy.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="RobotDatabaseLoader.cpp" />
     <ClCompile Include="RobotFileLoader.cpp" />
+    <ClCompile Include="RobotFileLoaderAdapter.cpp" />
     <ClCompile Include="RobotManagementSystem.cpp" />
+    <ClCompile Include="RobotObserver.cpp" />
     <ClCompile Include="RobotWorker.cpp" />
     <ClCompile Include="Vitals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractRobotDatabaseLoader.h" />
     <ClInclude Include="ChargerNotificationSystemFacade.h" />
+    <ClInclude Include="CompositeRobotLoader.h" />
     <ClInclude Include="FactoryAlertSystemFacade.h" />
+    <ClInclude Include="PriorityCalculationStrategy.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="PriorityLevel.h" />
     <ClInclude Include="RobotDatabaseLoader.h" />
     <ClInclude Include="RobotFileLoader.h" />
+    <ClInclude Include="RobotFileLoaderAdapter.h" />
     <ClInclude Include="RobotManagementSystem.h" />
+    <ClInclude Include="RobotObserver.h" />
     <ClInclude Include="RobotWorker.h" />
     <ClInclude Include="Vitals.h" />
   </ItemGroup>

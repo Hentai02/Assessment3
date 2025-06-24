@@ -10,6 +10,7 @@ class AbstractRobotDatabaseLoader;
 class FactoryAlertSystemFacade;
 class ChargerNotificationSystemFacade;
 class RobotWorker;
+class RobotObserver;
 
 class RobotManagementSystem
 {
@@ -37,6 +38,12 @@ protected:
 	std::unique_ptr<ChargerNotificationSystemFacade> _chargerNotificationSystemFacade;
 
 	std::unique_ptr<AbstractRobotDatabaseLoader> _robotDatabaseLoader;
+
+	// Observer pattern - observers for notifications
+	std::vector<std::unique_ptr<RobotObserver>> _observers;
+private:
+	void setupObservers();
+	void attachObserversToRobots();
 };
 
 

@@ -42,6 +42,18 @@
     <ClCompile Include="FactoryAlertSystemFacade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RobotFileLoaderAdapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositeRobotLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PriorityCalculationStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RobotObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Robot.h">
@@ -72,6 +84,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FactoryAlertSystemFacade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotFileLoaderAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositeRobotLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityCalculationStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

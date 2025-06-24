@@ -6,20 +6,38 @@
 
 #include "RobotWorker.h"
 #include "RobotDatabaseLoader.h"
+#include "RobotFileLoaderAdapter.h"
+#include "CompositeRobotLoader.h"
 #include "Vitals.h"
 
 #include "ChargerNotificationSystemFacade.h"
 #include "FactoryAlertSystemFacade.h"
+#include "RobotObserver.h"
 
 using namespace std;
 
 RobotManagementSystem::RobotManagementSystem() :
-	_robotDatabaseLoader(std::make_unique<RobotDatabaseLoader>()),
 	_factoryAlertSystemFacade(std::make_unique<FactoryAlertSystemFacade>()),
 	_chargerNotificationSystemFacade(std::make_unique<ChargerNotificationSystemFacade>())
 {
+	// Create composite loader with both database and file loaders
+	auto compositeLoader = std::make_unique<CompositeRobotLoader>();
+
+	// Add database loader
+	compositeLoader->addLoader(std::make_unique<RobotDatabaseLoader>());
+
+	// Add file loader adapter
+	compositeLoader->addLoader(std::make_unique<RobotFileLoaderAdapter>("robots.txt"));
+
+	_robotDatabaseLoader = std::move(compositeLoader);
+
+	// Initialize connection
 	_robotDatabaseLoader->initialiseConnection();
+
+	// Setup observers
+	setupObservers();
 }
+
 
 RobotManagementSystem::~RobotManagementSystem()
 {
@@ -31,6 +49,23 @@ RobotManagementSystem::~RobotManagementSystem()
 	}
 }
 
+void RobotManagementSystem::setupObservers()
+{
+	// Create and store observers
+	_observers.push_back(std::make_unique<FactoryAlertObserver>());
+	_observers.push_back(std::make_unique<ChargerNotificationObserver>());
+}
+
+void RobotManagementSystem::attachObserversToRobots()
+{
+	// Attach observers to all robots
+	for (RobotWorker* robot : _robots) {
+		for (auto& observer : _observers) {
+			robot->addObserver(observer.get());
+		}
+	}
+}
+
 void RobotManagementSystem::init()
 {
 	_robotDatabaseLoader->loadRobots(_robots);
@@ -38,10 +73,15 @@ void RobotManagementSystem::init()
 		_robotLookup[p->uid()] = p;
 	}
 
+	// Attach observers to all loaded robots
+	attachObserversToRobots();
+
 	for (RobotWorker* p : _robots) {
 		// TODO: do any processing you need here
 	}
 }
+
+
 
 void RobotManagementSystem::run()
 {
